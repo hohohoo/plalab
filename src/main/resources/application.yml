@@ -1,0 +1,40 @@
+spring:
+  profiles:
+    active: local
+  serverInfo:
+    domains:
+      - http://localhost:8080
+  datasource:
+    platform: local
+    url: jdbc:mysql://localhost:3306/gDrive
+    username: root
+    password: qwer123
+    driver-class-name: com.mysql.jdbc.Driver
+
+server:
+  port: 8080
+  undertow:
+    io-threads: # Math.max(Runtime.getRuntime().availableProcessors(), 2);
+    worker-threads: # ioThreads * 8;
+    accesslog:
+      enabled: true
+      pattern: '%t %a "%r" %s %D'
+      dir: ../logs/
+      rotatable: true
+
+logging:
+  level: INFO
+  isFile: true
+  location: ./logs
+
+---
+spring:
+  profiles: test
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create-drop
+  datasource:
+    platform: test
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:ac
