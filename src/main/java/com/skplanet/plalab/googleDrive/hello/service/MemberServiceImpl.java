@@ -27,7 +27,7 @@ public class MemberServiceImpl implements MemberService {
 
         try {
             Member affectedRows = memberRepository.save(member);
-            applicationLogger.info("ADD ".concat("").concat(" USER"));
+            applicationLogger.info("ADD USER - ".concat(member.toString()));
             if (affectedRows == null) {
                 throw new BadRequestException("");
             }
@@ -40,14 +40,14 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public List<Member> getAllMember() {
-        applicationLogger.info("GET ALL MEMBER LIST");
+        applicationLogger.info("GET ALL MEMBER");
         return memberRepository.findAll();
     }
 
     @Override
     public void delete(Integer id) {
         memberRepository.delete(id);
-        applicationLogger.info("DELETE ".concat("id").concat(" USER"));
+        applicationLogger.info("DELETE USER - ".concat(id.toString()));
     }
 
     @Override
@@ -55,6 +55,6 @@ public class MemberServiceImpl implements MemberService {
         Member updatedMember = memberRepository.findOne(id);
         updatedMember.setMember(member);
         memberRepository.save(updatedMember);
-        applicationLogger.info("UPDATE ".concat("id").concat(" USER TO ").concat("id"));
+        applicationLogger.info("UPDATE USER - ".concat(id.toString()));
     }
 }

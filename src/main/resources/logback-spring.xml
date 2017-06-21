@@ -10,8 +10,8 @@
     <property name="DEFAULT_LOG_PATTERN"
               value="%clr([%d{yyyy-MM-dd HH:mm:ss.SSS}]){faint} %clr(%5p) %clr(%msg){magenta} %clr([%15.15t]){faint}%n"/>
 
-    <springProperty name="isFile" source="logging.isFile"/>
-    <springProperty name="logLocation" source="logging.location"/>
+    <springProperty name="isFile" source="logging.file"/>
+    <springProperty name="logLocation" source="logging.path"/>
     <springProperty name="logLevel" source="logging.level"/>
 
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
@@ -28,8 +28,6 @@
         </encoder>
     </appender>
 
-    <if condition="${isFile}">
-        <then>
             <appender name="restAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
                 <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
                     <FileNamePattern>${logLocation}/rest.%d{yyyy-MM-dd}.log</FileNamePattern>
@@ -58,17 +56,6 @@
                 <appender-ref ref="applicationAppender"/>
             </logger>
 
-        </then>
-        <else>
-            <logger name="restLogger" additivity="false" level="INFO">
-                <appender-ref ref="DEFAULT_APPENDER"/>
-            </logger>
-
-            <logger name="applicationLogger" additivity="false" level="INFO">
-                <appender-ref ref="DEFAULT_APPENDER"/>
-            </logger>
-        </else>
-    </if>
 
     <springProfile name="local">
         <logger name="org.springframework" level="INFO"/>
